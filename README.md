@@ -4,7 +4,6 @@ Những đoạn code này nằm trong đồ án tốt nghiệp của em với t�
 ## Mục tiêu
 Những đoạn code dưới đây trình bày: 
 - Xử lý dữ liệu LiDAR trên nền tảng ROS2 ở Raspberry Pi 3, sau đó truyền sang STM32 bằng giao thức UART với format "#min_distance,min_angle\n".
-- Đoạn code được trình bày đã bỏ qua phần kết nối từ LiDAR đến Pi (UART)
 - STM32 nhận dữ liệu và giải mã dữ liệu với ngắt UART kết hợp DMA.
 ## Cấu trúc dữ liệu của LiDAR
 Trên Pi, dữ liệu LiDAR sẽ được xử lý với dữ liệu truyền về ở dạng HEX có format:
@@ -30,4 +29,5 @@ UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
 
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
 
