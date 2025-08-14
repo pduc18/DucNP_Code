@@ -1,5 +1,6 @@
 ## Tổng quan
 Những đoạn code này nằm trong đồ án tốt nghiệp của em với tên đề tài "Thiết kế hệ điều chỉnh tự động cho hệ truyền điện không dây". Mục tiêu chính của đồ án này là tìm ra vị trí vật bằng cảm biến LiDAR và từ đó căn chỉnh khoảng cách 2 cuộn dây phía trạm sạc sao cho hiệu suất sạc tốt nhất.
+
 ![Hệ thống trong thực tế](image.png)
 ## Mục tiêu
 Những đoạn code dưới đây trình bày: 
@@ -31,6 +32,7 @@ UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
 
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
 
 
 
