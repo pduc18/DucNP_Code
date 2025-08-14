@@ -23,7 +23,8 @@ Mỗi vòng quét có 120 điểm đo, mỗi frame có 4 điểm đo => Mỗi v�
 - Lưu dữ liệu vào topic /scan
 - Gửi dữ liệu sang STM32 mỗi 50ms
 # Luồng xử lý trên STM32
-UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên tục từ Raspberry Pi. Bộ đệm được xử lý khi có sự kiện ngắt IDLE hoặc khi nhận đủ số byte dữ liệu. Sau khi tách gói, dữ liệu #distance,angle được chuyển thành tọa độ x/y
+UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên tục từ Raspberry Pi. Bộ đệm được xử lý khi có sự kiện ngắt IDLE. Sau khi tách gói, dữ liệu #distance,angle được chuyển thành tọa độ x/y
 - Duyệt qua các byte từ chỉ số last_index đến current_write_index trong bộ đệm uart_dma_buffer.
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
+
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
