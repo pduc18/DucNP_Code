@@ -31,10 +31,13 @@ UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên
 Việc sử dụng ngắt UART + DMA để xử lý dữ liệu vì:
 - Giảm tải CPU, quá trình nhận dữ liệu được phần cứng DMA thực hiện tự động trong chế độ circular.
 - Do Pi gửi dữ liệu mỗi 50ms nên có thể dùng Idle Line Interrupt, hệ thống sẽ biết chính xác thời điểm kết thúc một gói dữ liệu (ngừng truyền > 1 ký tự), từ đó xử lý trọn gói và tránh tình trạng đọc dữ liệu dở dang.
+
 Quy trình xử lý:
+
 - Duyệt qua các byte từ chỉ số last_index đến current_write_index trong bộ đệm uart_dma_buffer.
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
 
 
 
