@@ -7,7 +7,9 @@ Những đoạn code dưới đây trình bày:
 - STM32 nhận dữ liệu và giải mã dữ liệu với ngắt UART kết hợp DMA.
 ## Cấu trúc dữ liệu của LiDAR
 Trên Pi, dữ liệu LiDAR sẽ được xử lý với dữ liệu truyền về ở dạng HEX có format:
+
 ![Dữ liệu LiDAR](image-1.png)
+
 Mỗi khung dữ liệu có 22 bytes, trong đó:
 - start bit: 0xFA
 - index: bắt đầu từ 0xA0, cho biết góc quét của mỗi frame
@@ -29,5 +31,6 @@ UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
 
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
 
 
