@@ -5,7 +5,7 @@ Những đoạn code này nằm trong đồ án tốt nghiệp của em với t�
 ## Mục tiêu
 Những đoạn code dưới đây trình bày: 
 - Xử lý dữ liệu LiDAR trên nền tảng ROS2 ở Raspberry Pi 3, sau đó truyền sang STM32 bằng giao thức UART với format "#min_distance,min_angle\n".
-- STM32 nhận dữ liệu và giải mã dữ liệu với ngắt UART kết hợp DMA.
+- STM32 nhận dữ liệu và giải mã dữ liệu với ngắt UART kết hợp DMA để trích xuất khoảng cách từ trạm sạc đến vật.
 ## Cấu trúc dữ liệu của LiDAR
 Trên Pi, dữ liệu LiDAR sẽ được xử lý với dữ liệu truyền về ở dạng HEX có format:
 
@@ -27,11 +27,15 @@ Mỗi vòng quét có 120 điểm đo, mỗi frame có 4 điểm đo => Mỗi v�
 - Lưu dữ liệu vào topic /scan
 - Gửi dữ liệu sang STM32 mỗi 50ms
 # Luồng xử lý trên STM32
-UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên tục từ Raspberry Pi. Bộ đệm được xử lý khi có sự kiện ngắt IDLE. Sau khi tách gói, dữ liệu #distance,angle được chuyển thành tọa độ x/y
+UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên tục từ Raspberry Pi. Bộ đệm được xử lý khi có sự kiện ngắt IDLE. Sau khi tách gói, dữ liệu #distance,angle được chuyển thành tọa độ x/y.
+Việc sử dụng ngắt UART + DMA để xử lý dữ liệu vì:
+- Giảm tải CPU, quá trình nhận dữ liệu được phần cứng DMA thực hiện tự động trong chế độ circular.
+- Do Pi gửi dữ liệu mỗi 50ms nên có thể dùng Idle Line Interrupt, hệ thống sẽ biết chính xác thời điểm kết thúc một gói dữ liệu (ngừng truyền > 1 ký tự), từ đó xử lý trọn gói và tránh tình trạng đọc dữ liệu dở dang.
+Quy trình xử lý:
 - Duyệt qua các byte từ chỉ số last_index đến current_write_index trong bộ đệm uart_dma_buffer.
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
-
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
 
 
 
