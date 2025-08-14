@@ -14,7 +14,9 @@ Mỗi khung dữ liệu có 22 bytes, trong đó:
 - index: bắt đầu từ 0xA0, cho biết góc quét của mỗi frame
 - data: 4 điểm đo, mỗi điểm gồm 4 bytes
 - checksum: 2 bytes
+
 ![Cấu trúc mỗi điểm đo](image-2.png)
+
 Mỗi vòng quét có 120 điểm đo, mỗi frame có 4 điểm đo => Mỗi vòng quét có 30 frames => 30x22 = 660 bytes / vòng quét
 # Luồng xử lý trên Pi
 - Chờ nhận 0xFA 0xA0, bắt đầu 1 gói tin
@@ -28,3 +30,4 @@ UART1 hoạt động ở chế độ DMA Circular để nhận dữ liệu liên
 - Ghép từng ký tự vào chuỗi tạm temp_line_buffer cho đến khi gặp ký tự xuống dòng ’\n’.
 
 - Khi hoàn tất một dòng, dùng sscanf(temp_line_buffer, #%f,%f) để trích xuất khoảng cách và góc (dạng #distance,angle).
+
